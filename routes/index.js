@@ -1,5 +1,5 @@
 const express = require('express')
-const { Readable } = require('stream')
+const { Readable } = require('stream') // AddThis
 
 // Replace this fakeGetCustomers call with an original one, as long as it's returning an iterable that can be converted
 // into a stream
@@ -8,22 +8,21 @@ const getCustomers = require('../fakeGetCustomers')
 
 const router = express.Router()
 
-function stringifyCustomer (customer) {
-  return JSON.stringify(customer)
-}
-
 /**
- *
- *
+ * Add This
+ * Creates a readable stream that can be consumed by the function in the UI by piping
  * @returns {Readable} returns a readable stream that can be piped into res
  */
-async function getCustomersReadableStream () {
-  return Readable.from((await getCustomers()).map((customer) => `${stringifyCustomer(customer)}--record-finish--`))
+function getCustomersStream (customersArray) {
+  return Readable.from(customersArray.map((customer) => `${JSON.stringify(customer)}--record-finish--`))
 }
 
-/* GET users listing. */
 router.get('/getCustomers', async (req, res) => {
-  (await getCustomersReadableStream())
+  const customersArray = await getCustomers() // This can be yours
+
+  // AddThis
+  // Pass your own customersArray
+  getCustomersStream(customersArray)
     .pipe(res)
 })
 
