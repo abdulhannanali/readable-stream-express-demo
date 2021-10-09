@@ -10,16 +10,16 @@ function safeJSONParse (string) {
 }
 
 /**
- *
+ * Parses JSON chunks from ReadableStream
  *
  *
  * @param {*} fetchFn this function returns a fetch promise
- * @param {*} onCustomerDataReceived callback function to receive customer
+ * @param {*} onChunkReceived callback function to receive customer
  * @param {*} onDone callback function called once the streaming is done
  * @param {*} onError callback function in case any kind of errors occur
  * @returns {undefined} undefined
  */
-window.streamCustomers = async function streamCustomers (fetchFn, onCustomerDataReceived, onDone, onError) {
+window.streamResponse = async function streamResponse (fetchFn, onChunkReceived, onDone, onError) {
   const fetchResponse = await fetchFn()
   const body = await fetchResponse.body
   const reader = body.getReader()
@@ -31,7 +31,7 @@ window.streamCustomers = async function streamCustomers (fetchFn, onCustomerData
   function parseBuffer () {
     try {
       if (allDone && buffer.length > 0) {
-        onCustomerDataReceived(JSON.parse(buffer))
+        onChunkReceived(JSON.parse(buffer))
         return
       }
 
@@ -49,7 +49,7 @@ window.streamCustomers = async function streamCustomers (fetchFn, onCustomerData
           : JSON.parse(record)
 
         if (typeof parsedBody === 'object' && parsedBody !== null) {
-          onCustomerDataReceived(parsedBody)
+          onChunkReceived(parsedBody)
         }
 
         if (!parsedBody) {

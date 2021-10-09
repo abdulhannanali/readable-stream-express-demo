@@ -13,7 +13,7 @@ const router = express.Router()
  * Creates a readable stream that can be consumed by the function in the UI by piping
  * @returns {Readable} returns a readable stream that can be piped into res
  */
-function getCustomersStream (customersArray) {
+function getStreamableArray (customersArray) {
   return Readable.from(customersArray.map((customer) => `${JSON.stringify(customer)}--record-finish--`))
 }
 
@@ -22,7 +22,7 @@ router.get('/getCustomers', async (req, res) => {
 
   // AddThis
   // Pass your own customersArray
-  getCustomersStream(customersArray)
+  getStreamableArray(customersArray)
     .pipe(res)
 })
 

@@ -6,6 +6,7 @@
 
   window.ui.onError = function onError (error) {
     streamStatus.textContent = 'Error! (Check Logs)'
+    console.error(error)
   }
 
   window.ui.onDone = function onDone () {
@@ -32,7 +33,7 @@
   function main () {
     const fetchFunction = () => fetch('/getCustomers')
 
-    window.streamCustomers(
+    window.streamResponse(
       fetchFunction,
       window.ui.onCustomerData,
       window.ui.onDone,

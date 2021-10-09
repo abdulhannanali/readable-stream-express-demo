@@ -1,7 +1,7 @@
-const streamCustomers = require('./streamCustomers')
+const streamResponse = require('./streamResponse')
 
 function getShopsTest () {
-  return streamCustomers(
+  return streamResponse(
     () => fetch(api.getSHops, { method: 'POST' }),
     (shopData) => console.log(shopData),
     () => console.log('Done'),
