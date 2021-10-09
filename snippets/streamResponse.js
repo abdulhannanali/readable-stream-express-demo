@@ -19,7 +19,7 @@ function safeJSONParse (string) {
  * @param {*} onError callback function in case any kind of errors occur
  * @returns {undefined} undefined
  */
-module.exports = async function streamResponse (fetchFn, onChunkReceived, onDone, onError) {
+export default async function streamResponse (fetchFn, onChunkReceived, onDone, onError) {
   const fetchResponse = await fetchFn()
   const body = await fetchResponse.body
   const reader = body.getReader()
