@@ -4,7 +4,7 @@
 
   window.ui = {}
 
-  window.ui.onError = function onError () {
+  window.ui.onError = function onError (error) {
     streamStatus.textContent = 'Error! (Check Logs)'
   }
 
